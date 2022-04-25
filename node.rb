@@ -1,7 +1,7 @@
 class Node
   include Comparable
 
-  def initialize(val = nil, left = nil, right = snil)
+  def initialize(val = nil, left = nil, right = nil)
     @value = val
     @left = left
     @right = right
