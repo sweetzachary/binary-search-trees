@@ -44,13 +44,25 @@ class Tree
       if block_given?
         yield node
       else
-        result.append node
+        result.append node.value
       end
       # enqueue children
       queue.unshift node.left unless node.left.nil?
       queue.unshift node.right unless node.right.nil?
     end
     result unless block_given?
+  end
+
+  def inorder()
+    traverse_inorder @root
+  end
+
+  def preorder()
+    traverse_preorder @root
+  end
+
+  def postorder()
+    traverse_postorder @root
   end
 
   # kindly provided by volounteers from TOP Discord server
@@ -115,6 +127,51 @@ class Tree
 
     minimum(node.left)
   end
+
+  def traverse_inorder(node)
+    return [] if node.nil?
+
+    values = []
+    left = traverse_inorder(node.left)
+    if block_given?
+      yield node
+    else
+      values.append node.value
+    end
+    right = traverse_inorder(node.right)
+
+    left + values + right unless block_given?
+  end
+
+  def traverse_preorder(node)
+    return [] if node.nil?
+
+    values = []
+    if block_given?
+      yield node
+    else
+      values.append node.value
+    end
+    left = traverse_preorder(node.left)
+    right = traverse_preorder(node.right)
+
+    values + left + right unless block_given?
+  end
+
+  def traverse_postorder(node)
+    return [] if node.nil?
+
+    values = []
+    left = traverse_postorder(node.left)
+    right = traverse_postorder(node.right)
+    if block_given?
+      yield node
+    else
+      values.append node.value
+    end
+
+    left + right + values unless block_given?
+  end
 end
 
 tree = Tree.new([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
@@ -127,4 +184,5 @@ tree.pretty_print
 p tree.find(90)
 p tree.find(4)
 p tree.find(14).left.value
-tree.level_order { |n| print "#{n.value}," }
+p tree.level_order
+p tree.inorder
