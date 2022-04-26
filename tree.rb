@@ -33,6 +33,26 @@ class Tree
     find_node(@root, val)
   end
 
+  def level_order()
+    queue = []
+    result = []
+    queue.unshift @root
+    until queue.empty?
+      # dequeue node
+      node = queue.pop
+      # process node
+      if block_given?
+        yield node
+      else
+        result.append node
+      end
+      # enqueue children
+      queue.unshift node.left unless node.left.nil?
+      queue.unshift node.right unless node.right.nil?
+    end
+    result unless block_given?
+  end
+
   # kindly provided by volounteers from TOP Discord server
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
@@ -107,3 +127,4 @@ tree.pretty_print
 p tree.find(90)
 p tree.find(4)
 p tree.find(14).left.value
+tree.level_order { |n| print "#{n.value}," }
