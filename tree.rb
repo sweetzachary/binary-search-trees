@@ -29,7 +29,11 @@ class Tree
     @root = delete_node(@root, val)
   end
 
-    # kindly provided by volounteers from TOP Discord server
+  def find(val)
+    find_node(@root, val)
+  end
+
+  # kindly provided by volounteers from TOP Discord server
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.value}"
@@ -73,6 +77,19 @@ class Tree
     node
   end
 
+  def find_node(node, val)
+    return nil if node.nil?
+
+    case val <=> node.value
+    when -1
+      find_node(node.left, val)
+    when 0
+      node
+    when 1
+      find_node(node.right, val)
+    end
+  end
+
   def minimum(node)
     return node if node.left.nil?
 
@@ -84,3 +101,9 @@ tree = Tree.new([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 
 tree.pretty_print
 tree.insert(21)
 tree.pretty_print
+tree.delete(13)
+tree.delete(6)
+tree.pretty_print
+p tree.find(90)
+p tree.find(4)
+p tree.find(14).left.value
