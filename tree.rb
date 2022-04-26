@@ -65,6 +65,12 @@ class Tree
     traverse_postorder @root
   end
 
+  def height(node)
+    return -1 if node.nil?
+
+    1 + [height(node.left), height(node.right)].max
+  end
+
   # kindly provided by volounteers from TOP Discord server
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
@@ -186,3 +192,5 @@ p tree.find(4)
 p tree.find(14).left.value
 p tree.level_order
 p tree.inorder
+p tree.height(tree.find(11))
+p tree.height(tree.find(4))
