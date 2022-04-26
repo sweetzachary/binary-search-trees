@@ -20,6 +20,31 @@ class Tree
     node
   end
 
+  def insert(val)
+    return if val.nil?
+    insert_node(@root, val)
+  end
+
+  def insert_node(node, val)
+    if val < node.value
+      if node.left.nil?
+        node.left = Node.new val
+      else
+        insert_node(node.left, val)
+      end
+    elsif val > node.value
+      if node.right.nil?
+        node.right = Node.new val
+      else
+        insert_node(node.right, val)
+      end
+    end
+  end
+
+  def delete()
+  end
+
+
   # kindly provided by volounteers from TOP Discord server
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
@@ -29,4 +54,6 @@ class Tree
 end
 
 tree = Tree.new([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
+tree.pretty_print
+tree.insert(21)
 tree.pretty_print
