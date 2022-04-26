@@ -25,6 +25,19 @@ class Tree
     insert_node(@root, val)
   end
 
+  def delete(val)
+    @root = delete_node(@root, val)
+  end
+
+    # kindly provided by volounteers from TOP Discord server
+  def pretty_print(node = @root, prefix = '', is_left = true)
+    pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.value}"
+    pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
+  end
+
+  private
+
   def insert_node(node, val)
     if val < node.value
       if node.left.nil?
@@ -41,15 +54,29 @@ class Tree
     end
   end
 
-  def delete()
+  def delete_node(node, val)
+    if val < node.value
+      node.left = delete_node(node.left, val)
+    elsif val > node.value
+      node.right = delete_node(node.right, val)
+    else
+      case node.child_count
+      when 0
+        node = nil
+      when 1
+        node = node.left || node.right
+      when 2
+        node.value = minimum(node.right).value
+        node.right = delete_node(node.right, node.value)
+      end
+    end
+    node
   end
 
+  def minimum(node)
+    return node if node.left.nil?
 
-  # kindly provided by volounteers from TOP Discord server
-  def pretty_print(node = @root, prefix = '', is_left = true)
-    pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
-    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.value}"
-    pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
+    minimum(node.left)
   end
 end
 

@@ -7,6 +7,13 @@ class Node
     @right = right
   end
 
+  def child_count()
+    count = 0
+    count += 1 if @left
+    count += 1 if @right
+    count
+  end
+
   def <=>(other)
     @value <=> other.value
   end
