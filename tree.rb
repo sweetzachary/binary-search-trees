@@ -82,6 +82,12 @@ class Tree
     result
   end
 
+  def rebalance
+    return if balanced?
+
+    @root = build_tree(inorder)
+  end
+
   # kindly provided by volounteers from TOP Discord server
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
@@ -227,3 +233,8 @@ p tree.balanced?
 p tree.height(tree.find(11))
 root = tree.find(11)
 p (tree.height(root.left) - tree.height(root.right)).abs
+
+p tree.inorder
+tree.rebalance
+tree.pretty_print
+p tree.balanced?
