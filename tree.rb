@@ -208,33 +208,3 @@ class Tree
     node_depth(node.left, goal, count) || node_depth(node.right, goal, count)
   end
 end
-
-tree = Tree.new([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
-tree.pretty_print
-p tree.balanced?
-tree.insert(21)
-tree.insert 23
-tree.insert 24
-tree.insert 25
-p tree.balanced?
-tree.pretty_print
-tree.delete(13)
-tree.delete(6)
-tree.pretty_print
-p tree.find(90)
-p tree.find(4)
-p tree.find(14).left.value
-p tree.level_order
-p tree.inorder
-p tree.height(tree.find(11))
-p tree.height(tree.find(4))
-p tree.depth(tree.find(4))
-p tree.balanced?
-p tree.height(tree.find(11))
-root = tree.find(11)
-p (tree.height(root.left) - tree.height(root.right)).abs
-
-p tree.inorder
-tree.rebalance
-tree.pretty_print
-p tree.balanced?
