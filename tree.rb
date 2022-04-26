@@ -22,6 +22,7 @@ class Tree
 
   def insert(val)
     return if val.nil?
+
     insert_node(@root, val)
   end
 
@@ -33,7 +34,7 @@ class Tree
     find_node(@root, val)
   end
 
-  def level_order()
+  def level_order
     queue = []
     result = []
     queue.unshift @root
@@ -53,15 +54,15 @@ class Tree
     result unless block_given?
   end
 
-  def inorder()
+  def inorder
     traverse_inorder @root
   end
 
-  def preorder()
+  def preorder
     traverse_preorder @root
   end
 
-  def postorder()
+  def postorder
     traverse_postorder @root
   end
 
@@ -75,6 +76,12 @@ class Tree
     node_depth(@root, node, 0)
   end
 
+  def balanced?
+    result = true
+    self.level_order { |n| result &&= node_balanced?(n) }
+    result
+  end
+
   # kindly provided by volounteers from TOP Discord server
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
@@ -83,6 +90,10 @@ class Tree
   end
 
   private
+
+  def node_balanced?(node)
+    (height(node.left) - height(node.right)).abs < 2
+  end
 
   def insert_node(node, val)
     if val < node.value
@@ -194,7 +205,12 @@ end
 
 tree = Tree.new([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
 tree.pretty_print
+p tree.balanced?
 tree.insert(21)
+tree.insert 23
+tree.insert 24
+tree.insert 25
+p tree.balanced?
 tree.pretty_print
 tree.delete(13)
 tree.delete(6)
@@ -206,5 +222,8 @@ p tree.level_order
 p tree.inorder
 p tree.height(tree.find(11))
 p tree.height(tree.find(4))
-p tree.depth(tree.find(11))
 p tree.depth(tree.find(4))
+p tree.balanced?
+p tree.height(tree.find(11))
+root = tree.find(11)
+p (tree.height(root.left) - tree.height(root.right)).abs
